@@ -84,7 +84,6 @@ angular
               name:'sbAdminApp',
               files:[
               'scripts/controllers/main.js',
-	      'scripts/services/queryDocker.js',
               'scripts/directives/timeline/timeline.js',
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
@@ -94,18 +93,6 @@ angular
           }
         }
       })
-      .state('dashboard.form',{
-        templateUrl:'views/form.html',
-        url:'/form'
-    })
-      .state('dashboard.blank',{
-        templateUrl:'views/pages/blank.html',
-        url:'/blank'
-    })
-      .state('login',{
-        templateUrl:'views/pages/login.html',
-        url:'/login'
-    })
       .state('dashboard.chart',{
         templateUrl:'views/chart.html',
         url:'/chart',
@@ -116,7 +103,8 @@ angular
               name:'chart.js',
               files:[
                 'bower_components/angular-chart.js/dist/angular-chart.min.js',
-                'bower_components/angular-chart.js/dist/angular-chart.css'
+                'bower_components/angular-chart.js/dist/angular-chart.css',
+	        'scripts/services/queryDocker.js'
               ]
             }),
             $ocLazyLoad.load({
@@ -128,8 +116,19 @@ angular
     })
       .state('dashboard.table',{
         templateUrl:'views/table.html',
-        url:'/table'
-    })
+        url:'/table',
+	controller:'TableCtrl',
+	resolve: {
+          loadMyFiles:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:['scripts/controllers/tableController.js']
+            })
+          }
+	}
+      })
+
+
       .state('dashboard.panels-wells',{
           templateUrl:'views/ui-elements/panels-wells.html',
           url:'/panels-wells'

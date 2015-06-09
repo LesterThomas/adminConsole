@@ -9,7 +9,7 @@
                 <a ui-sref="dashboard.chart"><i class="fa fa-bar-chart-o fa-fw"></i> Performance<span></span></a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="dashboard.table"><i class="fa fa-table fa-fw"></i> Tables</a>
+                <a ui-sref="dashboard.table"><i class="fa fa-table fa-fw"></i> Containers</a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.form"><i class="fa fa-edit fa-fw"></i> Forms</a>

@@ -1,0 +1,16 @@
+'use strict';
+/**
+ * @ngdoc function
+ * @name sbAdminApp.controller:TableCtrl
+ * @description
+ * # MainCtrls
+ * Controller of the sbAdminApp
+ */
+angular.module('sbAdminApp')
+  .controller('TableCtrl', ['$scope', '$timeout','$interval',  function ($scope, $timeout,$interval) {
+
+    alert('loaded TableController');	
+    $scope.names = [{Id:1, Name:"LesterThomas",Status:"Up 5 Mins"}];
+	
+
+}]);
