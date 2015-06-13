@@ -24,9 +24,9 @@
                         </thead>
                         <tbody>
                             <tr class="success" ng-repeat="x in names">
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
+                                <td>{{ x.Id }}</td>
+                                <td>{{ x.Image }}</td>
+                                <td>{{ x.Status }}</td>
                             </tr>
                         </tbody>
                     </table>

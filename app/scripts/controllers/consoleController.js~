@@ -1,0 +1,37 @@
+'use strict';
+/**
+ * @ngdoc function
+ * @name sbAdminApp.controller:ConsoleCtrl
+ * @description
+ * # MainCtrls
+ * Controller of the sbAdminApp
+ */
+angular.module('sbAdminApp')
+  .controller('ConsoleCtrl', ['$scope', '$timeout','$interval','$http', 'queryDockerService',  function ($scope, $timeout,$interval,$http,queryDockerService) {
+
+    $scope.myData = {};
+    $scope.containers=queryDockerService.containers;
+            
+    
+    $http.get("http://127.0.0.1:4243/containers/json")
+    		.success(function (response) {
+			$scope.containers.splice(0, $scope.containers.length);
+			
+			for (var index=0;index<response.length;index++){
+				if ((response[index].Image==queryDockerService.ZTUAContainer)) {
+			    		$scope.containers.push(response[index]);
+				}		
+			}
+		});
+
+
+
+    $scope.myData.doScaleClick = function() {
+	    alert("scaleSwitchStatus clicked " + $scope.scaleSwitchStatus);
+	}
+    $scope.myData.doChaosClick = function() {
+            alert("chaosSwitchStatus clicked " + $scope.chaosSwitchStatus);
+        }
+
+
+}]);

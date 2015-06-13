@@ -11,11 +11,14 @@ angular
   .module('sbAdminApp', [
     'oc.lazyLoad',
     'ui.router',
-    'ui.bootstrap',
+    'ui.bootstrap',    
+    'ui.slider',
     'angular-loading-bar',
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     
+
+
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
@@ -87,7 +90,8 @@ angular
               'scripts/directives/timeline/timeline.js',
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
-              'scripts/directives/dashboard/stats/stats.js'
+              'scripts/directives/dashboard/stats/stats.js',
+	           'scripts/services/queryDocker.js'
               ]
             })
           }
@@ -104,7 +108,7 @@ angular
               files:[
                 'bower_components/angular-chart.js/dist/angular-chart.min.js',
                 'bower_components/angular-chart.js/dist/angular-chart.css',
-	        'scripts/services/queryDocker.js'
+	              'scripts/services/queryDocker.js'
               ]
             }),
             $ocLazyLoad.load({
@@ -114,7 +118,7 @@ angular
           }
         }
     })
-      .state('dashboard.table',{
+      .state('dashboard.table',{ 
         templateUrl:'views/table.html',
         url:'/table',
 	controller:'TableCtrl',
@@ -122,8 +126,27 @@ angular
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
-              files:['scripts/controllers/tableController.js']
+              files:['scripts/controllers/tableController.js','scripts/services/queryDocker.js']
             })
+          }
+	}
+      })
+      .state('dashboard.console',{ 
+        templateUrl:'views/console.html',
+        url:'/console',
+	controller:'ConsoleCtrl',
+	resolve: {
+          loadMyFiles:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:['scripts/controllers/consoleController.js','scripts/services/queryDocker.js']
+            }),
+                $ocLazyLoad.load(
+                {
+                   name:'theaquaNg',
+                   files:['bower_components/ng-switcher/dist/ng-switcher.js',
+                          'bower_components/ng-switcher/dist/ng-switcher.css']
+                })
           }
 	}
       })

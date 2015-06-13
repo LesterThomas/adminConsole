@@ -1,0 +1,83 @@
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Console</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default" ng-controller="ConsoleCtrl">
+                <div class="panel-heading">
+                    Application Auto-Recovery & Scaler
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    
+                    <p>
+			<table>
+			    <tr>
+				<td><span ng-switcher ng-click="myData.doScaleClick()" ng-model="scaleSwitchStatus"></span></td>
+				<td>&nbsp; Auto-Recovery & Scaler</td>
+			    </tr>
+			</table>
+		    </p>
+		    <p>
+			<br />
+                        <h4>Number of application container instances</h4>
+                        <button type="button" class="btn btn-primary">Primary</button>
+                        
+                    </p>
+		    <p>
+			<br />
+                        <h4>Containers</h4>
+
+		            <table class="table">
+		                <tbody>
+		                    <tr class="success" ng-repeat="x in containers">
+		                        <td>{{ x.Image }}</td>
+		                        <td>{{ x.Status }}</td>
+					<td><button type="button" class="btn btn-warning">Stop</button></td>
+		                    </tr>
+		                </tbody>
+		            </table>
+
+
+                        
+                    </p>
+                    <br>
+                    
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+
+
+        </div>
+        <!-- /.col-lg-6 -->
+
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Chaos Monkey
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <p>
+			<table>
+			    <tr>
+				<td><span ng-switcher ng-click="myData.doChaosClick()" ng-model="chaosSwitchStatus"></span></td>
+				<td>&nbsp; Chaos Monkey</td>
+			    </tr>
+			</table>
+		    </p>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+
+
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>

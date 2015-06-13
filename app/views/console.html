@@ -1,0 +1,129 @@
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Console</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default" ng-controller="ConsoleCtrl">
+                <div class="panel-heading">
+                    Application Auto-Recovery & Scaler
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    
+                    <p>
+            			<table>
+            			    <tr>
+            				<td><span ng-switcher  ng-model="scaleSwitchStatus"></span></td>
+            				<td>&nbsp; Auto-Recovery & Scaler</td>
+            			    </tr>
+            			</table>
+            		</p>
+            		<p >
+            			<br />
+                    
+                            <h4>Number of application instances : {{ instances }}</h4>
+                            <div id="instancesSlider">
+                                <slider  floor="0" ceiling="20" step="1" precision="1" ng-model="instances"></slider>
+                            </div>
+                                           
+                    </p>
+        		    <p>
+        			    <br />
+                        <h4>Containers</h4>
+
+    		            <table class="table">
+    		                <tbody>
+    		                    <tr class="success" ng-repeat="x in containers">
+    		                        <td>{{ x.Image }}</td>
+    		                        <td>{{ x.Status }}</td>
+                					<td><button type="button" class="btn btn-warning">Stop</button></td>
+    		                    </tr>
+    		                </tbody>
+    		            </table>
+                        
+                    </p>
+                    <br>
+                    
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+
+
+        </div>
+        <!-- /.col-lg-6 -->
+
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Chaos Monkey
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <p>
+            			<table>
+            			    <tr>
+            				    <td><span ng-switcher ng-model="chaosSwitchStatus"></span></td>
+            				<td>&nbsp; Chaos Monkey</td>
+            			    </tr>
+            			</table>
+            		</p>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Zero Downtime Upgrade
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <p>
+                        <table>
+                            <tr>
+                                <td><span ng-switcher ng-model="upgradeSwitchStatus"></span></td>
+                                <td>&nbsp; Upgrade</td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p>
+            			<table width="100%">
+            			    <tr>
+            				    <td>
+                                    <div class="form-group">
+                                        <label>Applicaiton Image #1</label>
+                                        <input class="form-control" placeholder="Image:Version">
+                                    </div>
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+
+                                    <div id="appImage2" class="form-group">
+                                        <label>Applicaiton Image #2</label>
+                                        <input class="form-control" placeholder="Image:Version">
+                                    </div>
+                                </td>
+            			    </tr>
+            			</table>
+
+                        <div id="percentageSlider">
+                            <h4>Instances upgraded : {{ percentageUpgraded }}%</h4>
+                            <slider  floor="0" ceiling="100" step="5" precision="1" ng-model="percentageUpgraded"></slider>
+                        </div>
+		            </p>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+
+
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>

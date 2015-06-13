@@ -7,40 +7,38 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('ChartCtrl', ['$scope', '$timeout','$interval', 'queryDockerService',  function ($scope, $timeout,$interval,queryDockerService) {
+  .controller('ChartCtrl', ['$scope', '$timeout','$interval', 'queryDockerFactory',  function ($scope, $timeout,$interval,queryDockerFactory) {
 
+    
 
     $scope.line = {
-	    labels: ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],
+	    labels: ['','','','','','','','','','','','','','','','','','','','',],
 	    series: ['Hits'],
-	    data:  queryDockerService.hitsArray,
+	    data: queryDockerFactory(),
  	    options: {animation:false},
 	    onClick: function (points, evt) {
 	      console.log(points, evt);
 	    }
     };
-
-    function queryDocker() {
-      	//alert('queryDocker called');
-      	$('#heartbeat').toggle();
 	
-      	$scope.line.data[0].push(Math.floor((Math.random() * 100) + 1));                 //= queryDockerFactory();
-      	if ($scope.line.data[0].length>40) {
-	    $scope.line.data[0].shift();
-	}
+    function queryDocker() {
+      //alert('queryDocker called');
+      $('#heartbeat').toggle();
+      $scope.line.data[0].push(Math.floor((Math.random() * 100) + 1));                 //= queryDockerFactory();
+      if ($scope.line.data[0].length>20) {
+	  $scope.line.data[0].shift();
+	  }
     }
   
     //start periodic checking
-    //alert(queryDockerService.initiated);
-    if (queryDockerService.initiated) {
-      	} else {
-      	$scope.intervalTimer=$interval(queryDocker, 1000);
-	queryDockerService.initiated=true;
-      	//alert('starting interval');     
-      	}
+    if (angular.isDefined($scope.intervalTimer)) {
+      } else {
+      $scope.intervalTimer=$interval(queryDocker, 1000);
+      //alert('starting interval');     
+}
     var time=Date.now();
 
-/*
+
 	$scope.$on('$destroy', function() {
 	  // Make sure that the interval is destroyed too
   	  if (angular.isDefined($scope.intervalTimer)) {
@@ -48,8 +46,7 @@ angular.module('sbAdminApp')
 	    $scope.intervalTimer=null;
 	    //alert('stopping interval');
 	    }
-	});	
-    */
+	});
 
 /*
     $scope.bar = {
