@@ -7,44 +7,7 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('MainCtrl',['$scope','$position', '$interval', 'queryDockerFactory',function($scope,$position) {
+  .controller('MainCtrl',['$scope','$position',function($scope,$position) {
 	
-
-    $scope.line = {
-	    labels: ['','','','','','','','','','','','','','','','','','','','',],
-	    series: ['Hits'],
-	    data: queryDockerFactory(),
- 	    options: {animation:false},
-	    onClick: function (points, evt) {
-	      console.log(points, evt);
-	    }
-    };
-	
-    function queryDocker() {
-      //alert('queryDocker called');
-      $('#heartbeat').toggle();
-      $scope.line.data[0].push(Math.floor((Math.random() * 100) + 1));                 //= queryDockerFactory();
-      if ($scope.line.data[0].length>20) {
-	  $scope.line.data[0].shift();
-	  }
-    }
-  
-    //start periodic checking
-    if (angular.isDefined($scope.intervalTimer)) {
-      } else {
-      $scope.intervalTimer=$interval(queryDocker, 1000);
-      //alert('starting interval');     
-}
-    var time=Date.now();
-
-
-	$scope.$on('$destroy', function() {
-	  // Make sure that the interval is destroyed too
-  	  if (angular.isDefined($scope.intervalTimer)) {
-            $interval.cancel($scope.intervalTimer);
-	    $scope.intervalTimer=null;
-	    //alert('stopping interval');
-	    }
-	});
 
   }]);

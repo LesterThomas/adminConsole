@@ -91,7 +91,7 @@ angular
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
               'scripts/directives/dashboard/stats/stats.js',
-	           'scripts/services/queryDocker.js'
+	            'scripts/services/queryDocker.js'
               ]
             })
           }

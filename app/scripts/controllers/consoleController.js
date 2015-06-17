@@ -16,7 +16,7 @@ angular.module('sbAdminApp')
     $scope.scaleSwitchStatus=queryDockerService.autoRecovery;
     $scope.upgradeSwitchStatus=queryDockerService.upgrade;
     
-    $http.get("http://127.0.0.1:4243/containers/json")
+    $http.get("http://172.17.42.1:4243/containers/json")
     		.success(function (response) {
 			$scope.containers.splice(0, $scope.containers.length);
 			
