@@ -1,5 +1,5 @@
 <div>
-    <div class="row" ng-controller="MainCtrl"> 
+    <div class="row" > 
         <div class="col-lg-12">
             <h1 class="page-header">Dashboard</h1>
         </div>
@@ -9,8 +9,8 @@
     <div class="row">
         
         <stats number="Up" comments="Service up!" colour="green" type="check"></stats>
-        <stats number="{{ containers.length }}" comments="App servers running!" colour="{{containersColour}}" type="tasks"></stats>
-        <stats number="{{ autoRecovery }}" comments="Auto recovery & scale!" colour="{{autoRecoveryColour}}" type="medkit"></stats>
+        <stats number="{{ containers.length }}" comments="App servers" colour="{{containersColour}}" type="tasks"></stats>
+        <stats number="{{ autoRecovery }}" comments="Auto recovery" colour="{{autoRecoveryColour}}" type="medkit"></stats>
         <stats number="{{ chaosMonkey }}" comments="Chaos monkey!" colour="{{chaosMonkeyColour}}" type="bug"></stats>
 
     </div>

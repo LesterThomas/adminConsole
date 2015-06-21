@@ -16,7 +16,7 @@ angular.module('sbAdminApp')
     $scope.chaosSwitchStatus=queryDockerService.chaosMonkey;
     $scope.scaleSwitchStatus=queryDockerService.autoRecovery;
     $scope.upgradeSwitchStatus=queryDockerService.upgrade;
-    $scope.instances=3;
+    $scope.instances=queryDockerService.instances;
     $scope.autoScalerTimer=null;
     $scope.ZTUAContainer=queryDockerService.ZTUAContainer;
     $scope.ZTUBContainer=queryDockerService.ZTUBContainer;
@@ -31,14 +31,16 @@ angular.module('sbAdminApp')
 			    		$scope.containers.push(response[index]);
 				}		
 			}
-			//$scope.instances=$scope.containers.length;
+            if ($scope.scaleSwitchStatus==false) { //if auto-scale switch is off then set instances to currently running.
+			     $scope.instances=$scope.containers.length;
+            }
 		});
     }
 
     function setInstances() {
         var numberOfInstanceA=Math.round($scope.instances*(100-$scope.percentageUpgraded)/100);
         var numberOfInstanceB=Math.round($scope.instances*($scope.percentageUpgraded)/100);
-        alert('setInstances '+ $scope.ZTUAContainer +' to ' + numberOfInstanceA + ', ' + $scope.ZTUBContainer +' to ' + numberOfInstanceB);
+        //alert('setInstances '+ $scope.ZTUAContainer +' to ' + numberOfInstanceA + ', ' + $scope.ZTUBContainer +' to ' + numberOfInstanceB);
         $http.post('http://localhost:1880/docker/scaler', {image: $scope.ZTUAContainer, instances: numberOfInstanceA}).
             success(function(data, status, headers, config) {
                 // this callback will be called asynchronously
@@ -64,13 +66,22 @@ angular.module('sbAdminApp')
 		else {
       	$scope.containersTimer=$interval(queryDockerContainers, 1000);
     	}
-    
+
+    if ($scope.autoScalerTimer) { }
+        else {
+            //alert('start autoscaler');
+        $scope.autoScalerTimer=$interval(setInstances, 2000);
+        }
 
     $scope.$on('$destroy', function() {
 	  // Make sure that the interval is destroyed too
-  	  if ($scope.containersTimer) {
-            $interval.cancel($scope.containersTimer);
-	    $scope.containersTimer=null;
+      if ($scope.containersTimer) {    
+        $interval.cancel($scope.containersTimer);
+        $scope.containersTimer=null;
+        }
+      if ($scope.autoScalerTimer) {
+        $interval.cancel($scope.autoScalerTimer);
+        $scope.autoScalerTimer=null;
 	    //alert('stopping interval');
 	    }
 	});	 	
@@ -78,9 +89,7 @@ angular.module('sbAdminApp')
 
     $scope.$watch("instances", function(){
         queryDockerService.instances=$scope.instances;
-        $timeout.cancel($scope.autoScalerTimer);
         
-        $scope.autoScalerTimer=$timeout(setInstances,1000);
         //call the web service to increase the number of instances
         // localhost:1880/docker/scaler  {"image": "lesterthomas/appserver:1.1", "instances": "3"}
         
@@ -90,9 +99,7 @@ angular.module('sbAdminApp')
 
     $scope.$watch("percentageUpgraded", function(){
         queryDockerService.percentageUpgraded=$scope.percentageUpgraded;
-        $timeout.cancel($scope.autoScalerTimer);
-        
-        $scope.autoScalerTimer=$timeout(setInstances,1000);
+       
         //call the web service to increase the number of instances
         // localhost:1880/docker/scaler  {"image": "lesterthomas/appserver:1.1", "instances": "3"}
         

@@ -20,7 +20,7 @@ adminApp.service('queryDockerService',     function($http) {
   
     this.hitsArray = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
     this.containers=[];
-    this.instances=0;
+    this.instances=3;
     this.autoRecovery=false;
     this.chaosMonkey=false;
     this.upgrade=false;
