@@ -9,6 +9,7 @@
 angular.module('sbAdminApp')
   .controller('ChartCtrl', ['$scope', '$timeout','$interval', 'queryDockerService',  function ($scope, $timeout,$interval,queryDockerService) {
 
+    
 
     $scope.line = {
 	    labels: ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''],

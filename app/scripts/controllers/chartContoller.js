@@ -7,7 +7,7 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('ChartCtrl', ['$scope', '$timeout','$interval', 'queryDockerService',  function ($scope, $timeout,$interval,queryDockerService) {
+  .controller('ChartCtrl', ['$scope', '$timeout','$interval','$http', 'queryDockerService',  function ($scope, $timeout,$interval,$http,queryDockerService) {
 
     
 
@@ -20,15 +20,30 @@ angular.module('sbAdminApp')
 	      console.log(points, evt);
 	    }
     };
+    $scope.logs=[];
 
     function queryDocker() {
       	//alert('queryDocker called');
       	$('#heartbeat').toggle();
+    	
+    	//call log component to get latest log data
+        $http.get("http://localhost:4000/logs")
+            .success(function (response) {
+                $scope.logs.splice(0, $scope.logs.length);  //reset logs array to zero elements (without creating new array)
+                
+                for (var index=0;index<response.length;index++){
+                    if ((response[index].image==queryDockerService.ZTUAContainer) || (response[index].image==queryDockerService.ZTUBContainer)) {
+                            $scope.logs.push(response[index]);
+                    }       
+                }
+                //alert($scope.logs.length);
+                $scope.line.data[0].push($scope.logs.length);
+        });
+
 	
-      	$scope.line.data[0].push(Math.floor((Math.random() * 100) + 1));                 //= queryDockerFactory();
-      	if ($scope.line.data[0].length>40) {
-	    $scope.line.data[0].shift();
-	}
+        if ($scope.line.data[0].length>40) {
+	       $scope.line.data[0].shift();
+	    }
     }
   
     //start periodic checking
@@ -36,7 +51,7 @@ angular.module('sbAdminApp')
     if (queryDockerService.initiated) {
       	} else {
       	$scope.intervalTimer=$interval(queryDocker, 1000);
-	queryDockerService.initiated=true;
+    	queryDockerService.initiated=true;
       	//alert('starting interval');     
       	}
     var time=Date.now();

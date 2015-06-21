@@ -12,11 +12,13 @@ angular.module('sbAdminApp')
     $scope.myData = {};
     $scope.containers=queryDockerService.containers;
     $scope.percentageUpgraded=0;
+    $scope.containersTimer=null;
     $scope.chaosSwitchStatus=queryDockerService.chaosMonkey;
     $scope.scaleSwitchStatus=queryDockerService.autoRecovery;
     $scope.upgradeSwitchStatus=queryDockerService.upgrade;
-    
-    $http.get("http://172.17.42.1:4243/containers/json")
+
+    function queryDockerContainers() {
+    	$http.get("http://172.17.42.1:4243/containers/json")
     		.success(function (response) {
 			$scope.containers.splice(0, $scope.containers.length);
 			
@@ -27,9 +29,30 @@ angular.module('sbAdminApp')
 			}
 			$scope.instances=$scope.containers.length;
 		});
+    }
+
+    //start periodic checking
+    //alert(queryDockerService.initiated);
+    if ($scope.containersTimer) { }
+		else {
+      	$scope.containersTimer=$interval(queryDockerContainers, 1000);
+    	}
+
+    $scope.$on('$destroy', function() {
+	  // Make sure that the interval is destroyed too
+  	  if ($scope.containersTimer) {
+            $interval.cancel($scope.containersTimer);
+	    $scope.containersTimer=null;
+	    //alert('stopping interval');
+	    }
+	});	 	
 
     $scope.$watch("instances", function(){
     	queryDockerService.instances=$scope.instances;
+
+    	//call the web service to increase the number of instances
+
+    	
     	//alert('instances=' + $scope.instances);// do whatever you need with the just-changed $scope.value
 	});
 

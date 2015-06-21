@@ -134,8 +134,8 @@ angular
       .state('dashboard.console',{ 
         templateUrl:'views/console.html',
         url:'/console',
-	controller:'ConsoleCtrl',
-	resolve: {
+  controller:'ConsoleCtrl',
+  resolve: {
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
@@ -148,7 +148,26 @@ angular
                           'bower_components/ng-switcher/dist/ng-switcher.css']
                 })
           }
-	}
+  }
+      })
+.state('dashboard.testharness',{ 
+        templateUrl:'views/testharness.html',
+        url:'/testharness',
+  controller:'TestCtrl',
+  resolve: {
+          loadMyFiles:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:['scripts/controllers/testController.js','scripts/services/testService.js']
+            }),
+                $ocLazyLoad.load(
+                {
+                   name:'theaquaNg',
+                   files:['bower_components/ng-switcher/dist/ng-switcher.js',
+                          'bower_components/ng-switcher/dist/ng-switcher.css']
+                })
+          }
+  }
       })
 
 
