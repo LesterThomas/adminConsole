@@ -1,3 +1,4 @@
+<div ng-controller="ConsoleCtrl">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Console</h1>
@@ -8,7 +9,7 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <div class="panel panel-default" ng-controller="ConsoleCtrl">
+            <div class="panel panel-default" >
                 <div class="panel-heading">
                     Application Auto-Recovery & Scaler
                 </div>
@@ -97,7 +98,7 @@
             				    <td>
                                     <div class="form-group">
                                         <label>Applicaiton Image #1</label>
-                                        <input class="form-control" placeholder="Image:Version">
+                                        <input class="form-control" placeholder="Image:Version" ng-model="ZTUAContainer">
                                     </div>
                                 </td>
                                 <td>
@@ -107,7 +108,7 @@
 
                                     <div id="appImage2" class="form-group">
                                         <label>Applicaiton Image #2</label>
-                                        <input class="form-control" placeholder="Image:Version">
+                                        <input class="form-control" placeholder="Image:Version" ng-model="ZTUBContainer">
                                     </div>
                                 </td>
             			    </tr>
@@ -127,3 +128,4 @@
         </div>
         <!-- /.col-lg-6 -->
     </div>
+</div>

@@ -29,6 +29,7 @@ adminApp.service('queryDockerService',     function($http) {
     this.ZTUB=0;
     this.ZTUBContainer='lesterthomas/appserver:1.1';
     this.initiated=false;
+    this.percentageUpgraded=0;
     
  
 });
