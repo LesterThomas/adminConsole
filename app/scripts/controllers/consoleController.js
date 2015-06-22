@@ -18,8 +18,44 @@ angular.module('sbAdminApp')
     $scope.upgradeSwitchStatus=queryDockerService.upgrade;
     $scope.instances=queryDockerService.instances;
     $scope.autoScalerTimer=null;
+    $scope.chaosMonkeyTimer=null;
     $scope.ZTUAContainer=queryDockerService.ZTUAContainer;
     $scope.ZTUBContainer=queryDockerService.ZTUBContainer;
+
+    $scope.stopContainer=function(containerId) {
+        //alert(containerId);
+        $('#'+containerId).toggleClass('danger');
+        
+        
+        $http.post('http://172.17.42.1:4243/containers/' + containerId + '/stop', {}).
+            success(function(data, status, headers, config) {
+                // this callback will be called asynchronously
+                // when the response is available
+                //alert(data);
+             })
+    }    
+
+
+
+    function eventAutoScaling(inStart) {
+        $http.post('http://localhost:1880/docker/maintainer', {image: $scope.ZTUAContainer, autorestart: inStart}).
+            success(function(data, status, headers, config) {
+                // this callback will be called asynchronously
+                // when the response is available
+                //alert(data);
+             })
+    }
+
+    $scope.chaosMonkeyAction=function() {
+        //alert('Chaos Monkey');
+        // stopContainer(containerId)
+        if ($scope.containers.length>0) {
+            var index=Math.floor((Math.random() * $scope.containers.length));
+            var id=$scope.containers[index].Id;
+            var htmlId='#'+id;
+            $scope.stopContainer(id);
+        }
+    }
 
     function queryDockerContainers() {
     	$http.get("http://172.17.42.1:4243/containers/json")
@@ -64,26 +100,33 @@ angular.module('sbAdminApp')
     //alert(queryDockerService.initiated);
     if ($scope.containersTimer) { }
 		else {
-      	$scope.containersTimer=$interval(queryDockerContainers, 1000);
+      	$scope.containersTimer=$interval(queryDockerContainers, 2000);
     	}
 
-    if ($scope.autoScalerTimer) { }
-        else {
-            //alert('start autoscaler');
-        $scope.autoScalerTimer=$interval(setInstances, 2000);
-        }
+
 
     $scope.$on('$destroy', function() {
-	  // Make sure that the interval is destroyed too
-      if ($scope.containersTimer) {    
-        $interval.cancel($scope.containersTimer);
-        $scope.containersTimer=null;
-        }
-      if ($scope.autoScalerTimer) {
-        $interval.cancel($scope.autoScalerTimer);
-        $scope.autoScalerTimer=null;
-	    //alert('stopping interval');
-	    }
+      // Make sure that the interval is destroyed too
+        if ($scope.containersTimer) {    
+            $interval.cancel($scope.containersTimer);
+            $scope.containersTimer=null;
+            }    
+      // Make sure that the interval is destroyed too
+        if ($scope.autoScalerTimer) {    
+            $interval.cancel($scope.autoScalerTimer);
+            $scope.autoScalerTimer=null;
+            }  
+       // Make sure that the interval is destroyed too
+        if ($scope.chaosMonkeyTimer) {    
+            $interval.cancel($scope.chaosMonkeyTimer);
+            $scope.chaosMonkeyTimer=null;
+            }     
+        //if scale switch is on then start background auto-scaling
+        if ($scope.scaleSwitchStatus){
+            eventAutoScaling(true);
+            } 
+
+            
 	});	 	
 
 
@@ -112,14 +155,34 @@ angular.module('sbAdminApp')
     	//alert('scaleSwitchStatus=' + queryDockerService.autoRecovery);// do whatever you need with the just-changed $scope.value
     	if ($scope.scaleSwitchStatus){
     		$('#instancesSlider').show(400);
-		} else {
+            if ($scope.autoScalerTimer) { }
+                else {
+                    //alert('start autoscaler');
+                    $scope.autoScalerTimer=$interval(setInstances, 3000);
+                    eventAutoScaling(false);
+                }
+            } else {
 			$('#instancesSlider').hide(400);
+            if ($scope.autoScalerTimer) {
+                $interval.cancel($scope.autoScalerTimer);
+                $scope.autoScalerTimer=null;
+                //alert('stopping interval');
+        }
+
 		}
 	});
  
     $scope.$watch("chaosSwitchStatus", function(){
         queryDockerService.chaosMonkey=$scope.chaosSwitchStatus;
-        //alert('scaleSwitchStatus=' + $scope.scaleSwitchStatus);// do whatever you need with the just-changed $scope.value
+        if ($scope.chaosSwitchStatus) {
+            //start interval timer for Chaos Monkey
+            $scope.chaosMonkeyTimer=$interval($scope.chaosMonkeyAction, 7000);
+        } else {
+            //stop interval timer for Chaos Monkey
+            $interval.cancel($scope.chaosMonkeyTimer);
+            $scope.chaosMonkeyTimer=null;
+        }
+
     });     
 
     $scope.$watch("ZTUAContainer", function(){

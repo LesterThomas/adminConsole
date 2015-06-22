@@ -39,10 +39,10 @@
 
     		            <table class="table">
     		                <tbody>
-    		                    <tr class="success" ng-repeat="x in containers">
+    		                    <tr id="{{x.Id}}" class="success" ng-repeat="x in containers">
     		                        <td>{{ x.Image }}</td>
     		                        <td>{{ x.Status }}</td>
-                					<td><button type="button" class="btn btn-warning">Stop</button></td>
+                					<td><button type="button" class="btn btn-warning" ng-click="stopContainer(x.Id);">Stop</button></td>
     		                    </tr>
     		                </tbody>
     		            </table>
@@ -97,7 +97,7 @@
             			    <tr>
             				    <td>
                                     <div class="form-group">
-                                        <label>Applicaiton Image #1</label>
+                                        <label>Application Image #1</label>
                                         <input class="form-control" placeholder="Image:Version" ng-model="ZTUAContainer">
                                     </div>
                                 </td>
@@ -107,7 +107,7 @@
                                 <td>
 
                                     <div id="appImage2" class="form-group">
-                                        <label>Applicaiton Image #2</label>
+                                        <label>Application Image #2</label>
                                         <input class="form-control" placeholder="Image:Version" ng-model="ZTUBContainer">
                                     </div>
                                 </td>
