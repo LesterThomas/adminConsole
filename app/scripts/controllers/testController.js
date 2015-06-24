@@ -27,7 +27,7 @@ angular.module('sbAdminApp')
     $scope.$watch("testSwitchStatus", function(){
       //alert('instances=' + $scope.instances);// do whatever you need with the just-changed $scope.value
           //start periodic checking
-          //alert(queryDockerService.initiated);
+          //alert(containersService.initiated);
           testService.testSwitchStatus=$scope.testSwitchStatus;
           if (testService.testSwitchStatus) {
             if (testService.initiated) {

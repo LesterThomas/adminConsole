@@ -7,20 +7,20 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('ConsoleCtrl', ['$scope', '$timeout','$interval','$http', 'queryDockerService',    function ($scope, $timeout,$interval,$http,queryDockerService) {
+  .controller('ConsoleCtrl', ['$scope', '$timeout','$interval','$http', 'containersService',    function ($scope, $timeout,$interval,$http,containersService) {
   	
     $scope.myData = {};
-    $scope.containers=queryDockerService.containers;
-    $scope.percentageUpgraded=queryDockerService.percentageUpgraded;
+    $scope.containers=containersService.containers;
+    $scope.percentageUpgraded=containersService.percentageUpgraded;
     $scope.containersTimer=null;
-    $scope.chaosSwitchStatus=queryDockerService.chaosMonkey;
-    $scope.scaleSwitchStatus=queryDockerService.autoRecovery;
-    $scope.upgradeSwitchStatus=queryDockerService.upgrade;
-    $scope.instances=queryDockerService.instances;
+    $scope.chaosSwitchStatus=containersService.chaosMonkey;
+    $scope.scaleSwitchStatus=containersService.autoRecovery;
+    $scope.upgradeSwitchStatus=containersService.upgrade;
+    $scope.instances=containersService.instances;
     $scope.autoScalerTimer=null;
     $scope.chaosMonkeyTimer=null;
-    $scope.ZTUAContainer=queryDockerService.ZTUAContainer;
-    $scope.ZTUBContainer=queryDockerService.ZTUBContainer;
+    $scope.ZTUAContainer=containersService.ZTUAContainer;
+    $scope.ZTUBContainer=containersService.ZTUBContainer;
 
     $scope.stopContainer=function(containerId) {
         //alert(containerId);
@@ -63,7 +63,7 @@ angular.module('sbAdminApp')
 			$scope.containers.splice(0, $scope.containers.length);
 			
 			for (var index=0;index<response.length;index++){
-				if ((response[index].Image==queryDockerService.ZTUAContainer) || (response[index].Image==queryDockerService.ZTUBContainer)) {
+				if ((response[index].Image==containersService.ZTUAContainer) || (response[index].Image==containersService.ZTUBContainer)) {
 			    		$scope.containers.push(response[index]);
 				}		
 			}
@@ -97,7 +97,7 @@ angular.module('sbAdminApp')
     }
 
     //start periodic checking
-    //alert(queryDockerService.initiated);
+    //alert(containersService.initiated);
     if ($scope.containersTimer) { }
 		else {
       	$scope.containersTimer=$interval(queryDockerContainers, 2000);
@@ -131,7 +131,7 @@ angular.module('sbAdminApp')
 
 
     $scope.$watch("instances", function(){
-        queryDockerService.instances=$scope.instances;
+        containersService.instances=$scope.instances;
         
         //call the web service to increase the number of instances
         // localhost:1880/docker/scaler  {"image": "lesterthomas/appserver:1.1", "instances": "3"}
@@ -141,7 +141,7 @@ angular.module('sbAdminApp')
     });
 
     $scope.$watch("percentageUpgraded", function(){
-        queryDockerService.percentageUpgraded=$scope.percentageUpgraded;
+        containersService.percentageUpgraded=$scope.percentageUpgraded;
        
         //call the web service to increase the number of instances
         // localhost:1880/docker/scaler  {"image": "lesterthomas/appserver:1.1", "instances": "3"}
@@ -151,8 +151,8 @@ angular.module('sbAdminApp')
     });
 
 	$scope.$watch("scaleSwitchStatus", function(){
-		queryDockerService.autoRecovery=$scope.scaleSwitchStatus;
-    	//alert('scaleSwitchStatus=' + queryDockerService.autoRecovery);// do whatever you need with the just-changed $scope.value
+		containersService.autoRecovery=$scope.scaleSwitchStatus;
+    	//alert('scaleSwitchStatus=' + containersService.autoRecovery);// do whatever you need with the just-changed $scope.value
     	if ($scope.scaleSwitchStatus){
     		$('#instancesSlider').show(400);
             if ($scope.autoScalerTimer) { }
@@ -173,7 +173,7 @@ angular.module('sbAdminApp')
 	});
  
     $scope.$watch("chaosSwitchStatus", function(){
-        queryDockerService.chaosMonkey=$scope.chaosSwitchStatus;
+        containersService.chaosMonkey=$scope.chaosSwitchStatus;
         if ($scope.chaosSwitchStatus) {
             //start interval timer for Chaos Monkey
             $scope.chaosMonkeyTimer=$interval($scope.chaosMonkeyAction, 7000);
@@ -187,7 +187,7 @@ angular.module('sbAdminApp')
 
     $scope.$watch("ZTUAContainer", function(){
         //alert($scope.ZTUAContainer);
-        queryDockerService.ZTUAContainer=$scope.ZTUAContainer;
+        containersService.ZTUAContainer=$scope.ZTUAContainer;
         if ($scope.ZTUBContainer.localeCompare($scope.ZTUAContainer)==0) {
             $scope.percentageUpgraded=0;
         }
@@ -195,7 +195,7 @@ angular.module('sbAdminApp')
     });   
 
     $scope.$watch("ZTUBContainer", function(){
-        queryDockerService.ZTUBContainer=$scope.ZTUBContainer;
+        containersService.ZTUBContainer=$scope.ZTUBContainer;
         if ($scope.ZTUBContainer.localeCompare($scope.ZTUAContainer)==0) {
             $scope.percentageUpgraded=0;
         }
@@ -203,7 +203,7 @@ angular.module('sbAdminApp')
     });     
 
 	$scope.$watch("upgradeSwitchStatus", function(){
-		queryDockerService.upgrade=$scope.upgradeSwitchStatus;
+		containersService.upgrade=$scope.upgradeSwitchStatus;
     	//alert('scaleSwitchStatus=' + $scope.scaleSwitchStatus);// do whatever you need with the just-changed $scope.value
     	if ($scope.upgradeSwitchStatus){
     		$('#appImage2').show(400);

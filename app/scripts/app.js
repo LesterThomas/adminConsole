@@ -29,7 +29,7 @@ angular
     $stateProvider
       .state('dashboard', {
         url:'/dashboard',
-        templateUrl: 'views/dashboard/main.html',
+        templateUrl: 'views/main.html',
         resolve: {
             loadMyDirectives:function($ocLazyLoad){
                 return $ocLazyLoad.load(
@@ -79,28 +79,28 @@ angular
     })
       .state('dashboard.home',{
         url:'/home',
-        controller: 'MainCtrl',
-        templateUrl:'views/dashboard/home.html',
+        controller: 'DashboardCtrl',
+        templateUrl:'views/dashboard.html',
         resolve: {
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
               files:[
-              'scripts/controllers/main.js',
+              'scripts/controllers/dashboardController.js',
               'scripts/directives/timeline/timeline.js',
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
               'scripts/directives/dashboard/stats/stats.js',
-	            'scripts/services/queryDocker.js'
+	            'scripts/services/containersService.js'
               ]
             })
           }
         }
       })
-      .state('dashboard.chart',{
-        templateUrl:'views/chart.html',
-        url:'/chart',
-        controller:'ChartCtrl',
+      .state('dashboard.performance',{
+        templateUrl:'views/performance.html',
+        url:'/performance',
+        controller:'PerformanceCtrl',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
@@ -108,25 +108,26 @@ angular
               files:[
                 'bower_components/angular-chart.js/dist/angular-chart.min.js',
                 'bower_components/angular-chart.js/dist/angular-chart.css',
-	              'scripts/services/queryDocker.js'
+	              'scripts/services/containersService.js',
+                'scripts/services/logsService.js'
               ]
             }),
             $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/chartContoller.js']
+                files:['scripts/controllers/performanceContoller.js']
             })
           }
         }
     })
-      .state('dashboard.table',{ 
-        templateUrl:'views/table.html',
-        url:'/table',
-	controller:'TableCtrl',
+      .state('dashboard.containers',{ 
+        templateUrl:'views/containers.html',
+        url:'/containers',
+	controller:'ContainersCtrl',
 	resolve: {
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
-              files:['scripts/controllers/tableController.js','scripts/services/queryDocker.js']
+              files:['scripts/controllers/containersController.js','scripts/services/containersService.js']
             })
           }
 	}
@@ -139,7 +140,7 @@ angular
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
-              files:['scripts/controllers/consoleController.js','scripts/services/queryDocker.js']
+              files:['scripts/controllers/consoleController.js','scripts/services/containersService.js']
             }),
                 $ocLazyLoad.load(
                 {
@@ -150,9 +151,9 @@ angular
           }
   }
       })
-.state('dashboard.testharness',{ 
-        templateUrl:'views/testharness.html',
-        url:'/testharness',
+.state('dashboard.test',{ 
+        templateUrl:'views/test.html',
+        url:'/test',
   controller:'TestCtrl',
   resolve: {
           loadMyFiles:function($ocLazyLoad) {
