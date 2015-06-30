@@ -91,7 +91,8 @@ angular
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
               'scripts/directives/dashboard/stats/stats.js',
-	            'scripts/services/containersService.js'
+	            'scripts/services/containersService.js',
+              'scripts/services/logsService.js'
               ]
             })
           }
@@ -122,8 +123,8 @@ angular
       .state('dashboard.containers',{ 
         templateUrl:'views/containers.html',
         url:'/containers',
-	controller:'ContainersCtrl',
-	resolve: {
+      	controller:'ContainersCtrl',
+      	resolve: {
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
@@ -140,7 +141,8 @@ angular
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
-              files:['scripts/controllers/consoleController.js','scripts/services/containersService.js']
+              files:['scripts/controllers/consoleController.js','scripts/services/containersService.js',
+              'scripts/services/logsService.js']
             }),
                 $ocLazyLoad.load(
                 {

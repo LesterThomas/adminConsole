@@ -15,21 +15,32 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    
-                    <p>
-            			<table>
-            			    <tr>
-            				<td><span ng-switcher  ng-model="scaleSwitchStatus"></span></td>
-            				<td>&nbsp; Auto-Recovery & Scaler</td>
-            			    </tr>
-            			</table>
-            		</p>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                    			<table>
+                    			    <tr>
+                    				<td><span ng-switcher  ng-model="console.autoRecovery"></span></td>
+                    				<td>&nbsp; Auto-Recovery</td>
+                    			    </tr>
+                    			</table>
+            		        </td>
+                            <td>
+                                <table id="autoScale">
+                                    <tr>
+                                    <td><span ng-switcher  ng-model="console.autoScale"></span></td>
+                                    <td>&nbsp; Auto-Scale</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
             		<p >
             			<br />
                     
-                            <h4>Number of application instances : {{ instances }}</h4>
+                            <h4>Number of application instances : {{ console.instances }}</h4>
                             <div id="instancesSlider">
-                                <slider  floor="0" ceiling="20" step="1" precision="1" ng-model="instances"></slider>
+                                <slider  floor="0" ceiling="20" step="1" precision="1" ng-model="console.instances"></slider>
                             </div>
                                            
                     </p>
@@ -39,9 +50,10 @@
 
     		            <table class="table">
     		                <tbody>
-    		                    <tr id="{{x.Id}}" class="success" ng-repeat="x in containers">
+    		                    <tr id="{{x.Id}}" class="success" ng-repeat="x in console.containers">
     		                        <td>{{ x.Image }}</td>
     		                        <td>{{ x.Status }}</td>
+                                    <td>{{ x.line.data[0][x.line.data[0].length-1] }}% cpu</td>
                 					<td><button type="button" class="btn btn-warning" ng-click="stopContainer(x.Id);">Stop</button></td>
     		                    </tr>
     		                </tbody>
@@ -69,7 +81,7 @@
                     <p>
             			<table>
             			    <tr>
-            				    <td><span ng-switcher ng-model="chaosSwitchStatus"></span></td>
+            				    <td><span ng-switcher ng-model="console.chaosMonkey"></span></td>
             				<td>&nbsp; Chaos Monkey</td>
             			    </tr>
             			</table>
@@ -87,7 +99,7 @@
                     <p>
                         <table>
                             <tr>
-                                <td><span ng-switcher ng-model="upgradeSwitchStatus"></span></td>
+                                <td><span ng-switcher ng-model="console.upgrade"></span></td>
                                 <td>&nbsp; Upgrade</td>
                             </tr>
                         </table>
@@ -98,7 +110,7 @@
             				    <td>
                                     <div class="form-group">
                                         <label>Application Image #1</label>
-                                        <input class="form-control" placeholder="Image:Version" ng-model="ZTUAContainer">
+                                        <input class="form-control" placeholder="Image:Version" ng-model="console.ZTUAContainer">
                                     </div>
                                 </td>
                                 <td>
@@ -108,15 +120,15 @@
 
                                     <div id="appImage2" class="form-group">
                                         <label>Application Image #2</label>
-                                        <input class="form-control" placeholder="Image:Version" ng-model="ZTUBContainer">
+                                        <input class="form-control" placeholder="Image:Version" ng-model="console.ZTUBContainer">
                                     </div>
                                 </td>
             			    </tr>
             			</table>
 
                         <div id="percentageSlider">
-                            <h4>Instances upgraded : {{ percentageUpgraded }}%</h4>
-                            <slider  floor="0" ceiling="100" step="5" precision="1" ng-model="percentageUpgraded"></slider>
+                            <h4>Instances upgraded : {{ console.percentageUpgraded }}%</h4>
+                            <slider  floor="0" ceiling="100" step="5" precision="1" ng-model="console.percentageUpgraded"></slider>
                         </div>
 		            </p>
                 </div>

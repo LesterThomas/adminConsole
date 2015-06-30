@@ -9,7 +9,7 @@
     <div class="row">
         
         <stats number="Up" comments="Service up!" colour="green" type="check"></stats>
-        <stats number="{{ containers.length }}" comments="App servers" colour="{{containersColour}}" type="tasks"></stats>
+        <stats number="{{ console.containers.length }}" comments="App servers" colour="{{containersColour}}" type="tasks"></stats>
         <stats number="{{ autoRecovery }}" comments="Auto recovery" colour="{{autoRecoveryColour}}" type="medkit"></stats>
         <stats number="{{ chaosMonkey }}" comments="Chaos monkey!" colour="{{chaosMonkeyColour}}" type="bug"></stats>
 
@@ -37,7 +37,7 @@
                     <i class="fa fa-clock-o fa-fw"></i> Help
                 </div>
                 <!-- /.panel-heading -->
- 		<div class="panel-body">
+ 		     <div class="panel-body">
                     <h4>
 			Instructions
 		    </h4>
