@@ -24,4 +24,4 @@ The admin console is a static HTML5 website that calls Docker REST APIs to displ
 
 # architecture
 
-![Admin console calling Docker API's](app/images/Docker architecture 2.png)
+![Admin console calling Docker API's](https://raw.githubusercontent.com/LesterThomas/adminConsole/master/app/images/Docker%20architecture%202.png)
